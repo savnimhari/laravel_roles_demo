@@ -1,14 +1,19 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\TeacherController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\RegistrarController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 
+// Home page - show your custom home.blade.php
 Route::get('/', function () {
     return view('home');
+});
+Route::get('/courses', function () {
+    return view('courses');
+});
+Route::get('/form', function () {
+    return view('form');
 });
 Route::get('/about', function () {
     return view('about');
@@ -16,54 +21,52 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('contact');
 });
-Route::get('/form', function () {
-    return view('form');
-});
-Route::get('/courses', function () {
-    return view('courses');
-});
 Route::get('/login', function () {
-    return view('welcome');
+    return view('login');
 });
 
 
-// ✅ Shared dashboard route for all roles
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Auth routes
+require __DIR__.'/auth.php';
 
-// ✅ Admin-only management routes
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    Route::get('/users', [AdminController::class, 'users'])->name('users');
-    Route::post('/users/store', [AdminController::class, 'storeUser'])->name('users.store');
-    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
-    Route::patch('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
-    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
-
-    Route::get('/roles', [AdminController::class, 'roles'])->name('roles');
-    Route::post('/roles/store', [AdminController::class, 'storeRole'])->name('roles.store');
-    Route::get('/roles/{role}/edit', [AdminController::class, 'editRole'])->name('roles.edit');
-    Route::patch('/roles/{role}', [AdminController::class, 'updateRole'])->name('roles.update');
-    Route::delete('/roles/{role}', [AdminController::class, 'destroyRole'])->name('roles.destroy');
-
-    Route::get('/permissions', [AdminController::class, 'permissions'])->name('permissions');
-    Route::post('/permissions/store', [AdminController::class, 'storePermission'])->name('permissions.store');
-    Route::get('/permissions/{permission}/edit', [AdminController::class, 'editPermission'])->name('permissions.edit');
-    Route::patch('/permissions/{permission}', [AdminController::class, 'updatePermission'])->name('permissions.update');
-    Route::delete('/permissions/{permission}', [AdminController::class, 'destroyPermission'])->name('permissions.destroy');
-
-    Route::get('/assign-permissions', [AdminController::class, 'assignPermissions'])->name('assign.permissions');
-    Route::post('/assign-permissions/store', [AdminController::class, 'storeAssignedPermissions'])->name('assign.permissions.store');
-});
-
-// ✅ Authenticated user profile (all roles)
+// Profile routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// ✅ Auth routes like login, register, forgot password, etc.
-require __DIR__.'/auth.php';
+// Admin routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', function () {
+        return view('admin.users');
+    })->name('users');
+
+    Route::get('/roles', function () {
+        return view('admin.roles');
+    })->name('roles');
+
+    Route::get('/permissions', function () {
+        return view('admin.permissions');
+    })->name('permissions');
+
+    Route::get('/assign-permissions', function () {
+        return view('admin.assign-permissions');
+    })->name('assign.permissions');
+});
+
+// Simple dashboard for testing
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::middleware(['auth', 'role:student'])->group(function () {
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
+    Route::get('/payments/create', [PaymentController::class, 'create'])->name('courses.detail');
+});
+Route::post('/student/payments', [StudentPaymentController::class, 'store'])->name('student.payments.store');
+Route::get('/student/payments', [StudentPaymentController::class, 'index'])->name('student.payments.index');
+
+

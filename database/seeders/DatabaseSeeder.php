@@ -2,28 +2,61 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents\Seeder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
-{
-    // Create roles
-    foreach (['admin', 'teacher', 'student', 'registrar'] as $role) {
-        \Spatie\Permission\Models\Role::firstOrCreate(['name' => $role]);
+    {
+        // Create roles
+        $roles = ['admin', 'teacher', 'student', 'registrar'];
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role]);
+        }
+
+        // User data
+        $users = [
+            [
+                'name' => 'Admin User',
+                'email' => 'admin@example.com',
+                'password' => 'admin123',
+                'role' => 'admin'
+            ],
+            [
+                'name' => 'Teacher User',
+                'email' => 'teacher@example.com',
+                'password' => 'teacher123',
+                'role' => 'teacher'
+            ],
+            [
+                'name' => 'Student One',
+                'email' => 'student1@example.com',
+                'password' => 'student123',
+                'role' => 'student'
+            ],
+            [
+                'name' => 'Registrar User',
+                'email' => 'registrar@example.com',
+                'password' => 'registrar123',
+                'role' => 'registrar'
+            ],
+        ];
+
+        // Clear old users
+        User::truncate();
+
+        // Create users and assign roles
+        foreach ($users as $userData) {
+            $user = User::create([
+                'name' => $userData['name'],
+                'email' => $userData['email'],
+                'password' => Hash::make($userData['password']),
+            ]);
+
+            $user->assignRole($userData['role']);
+        }
     }
-
-    // Create test user if not exists
-    User::firstOrCreate(
-        ['email' => 'test@example.com'],
-        ['name' => 'Test User']
-    );
-}
-
 }
