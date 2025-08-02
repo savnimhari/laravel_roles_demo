@@ -1,13 +1,12 @@
 <x-app-layout>
-    <h2>Pay Fees</h2>
-    <form method="POST" action="{{ route('payments.store') }}">
-        @csrf
-        <label>Payment Type</label>
-        <select name="payment_type" required>
-            <option value="admission">Admission Fee</option>
-            <option value="exam">Exam Fee</option>
-            <option value="term">Term Fee</option>
-        </select><br><br>
+    <div class="container py-4">
+        <!-- Header Section -->
+        <div class="card bg-primary text-white mb-4">
+            <div class="card-body py-4">
+                <h2 class="card-title h2">My Academic Performance</h2>
+                <p class="card-text">View your marks, grades, and statistics</p>
+            </div>
+        </div>
 
         <!-- Class Info and Filters -->
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
