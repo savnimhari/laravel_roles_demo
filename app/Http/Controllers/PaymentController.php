@@ -37,6 +37,10 @@ class PaymentController extends Controller
     {
         return view('payments.create');
 }
+public function detail()
+    {
+        return view('payments.detail');
+}
 
    public function edit(Payment $payment)
 {

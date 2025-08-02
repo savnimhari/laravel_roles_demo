@@ -1,88 +1,239 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-900 dark:text-white leading-tight">
+        <h2 class="fw-bold text-dark mb-0">
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
 
-    <div class="py-12 bg-gray-100 light:bg-gray-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white info:bg-gray-800 overflow-hidden shadow-xl sm:rounded-lg p-8">
-                
-                <h1 class="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-white">
-                    Welcome, {{ Auth::user()->name }}!
-                </h1>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-
-                    @role('admin')
-                    <div class="p-6 bg-blue-100 dark:bg-blue-900 rounded-xl shadow hover:shadow-lg transition">
-                        <h2 class="text-xl font-semibold text-blue-800 dark:text-white mb-2 flex items-center gap-2">
-                            🛠️ Admin Panel
-                        </h2>
-                        <ul class="list-disc list-inside text-blue-700 dark:text-blue-200 space-y-1">
-                            <li><a href="{{ route('admin.users') }}" class="hover:underline">Manage Users</a></li>
-                            <li><a href="{{ route('admin.roles') }}" class="hover:underline">Manage Roles</a></li>
-                            <li><a href="{{ route('admin.permissions') }}" class="hover:underline">Manage Permissions</a></li>
-                        </ul>
+    <div class="py-4" style="background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);">
+        <div class="container">
+            <!-- Welcome Card -->
+            <div class="card border-0 shadow mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="display-6 mb-1">Welcome, {{ auth()->user()->name }}!</h1>
+                            <p class="text-muted mb-0">You are logged in as a <span class="badge bg-primary">{{ auth()->user()->roles->first()->name ?? 'User' }}</span></p>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                            <i class="bi bi-person-check fs-3 text-primary"></i>
+                        </div>
                     </div>
-                    @endrole
-
-                    @role('teacher')
-                    <div class="p-6 bg-green-100 dark:bg-green-900 rounded-xl shadow hover:shadow-lg transition">
-                        <h2 class="text-xl font-semibold text-green-800 dark:text-white mb-2 flex items-center gap-2">
-                            📚 Teacher Panel
-                        </h2>
-                        <ul class="list-disc list-inside text-green-700 dark:text-green-200 space-y-1">
-                            <li>View class schedules</li>
-                            <li>Manage student assignments</li>
-                        </ul>
-                    </div>
-                    @endrole
-
-                    @role('student')
-<div class="p-6 bg-purple-100 dark:bg-purple-900 rounded-xl shadow hover:shadow-lg transition">
-    <h2 class="text-2xl font-bold text-purple-800 dark:text-white mb-6 text-center">
-        🎓 Student Dashboard
-    </h2>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <!-- Course List -->
-        <div class="bg-white dark:bg-purple-800 rounded-lg p-6 shadow-md hover:shadow-xl transition text-center h-40 flex flex-col justify-between">
-            <div class="text-lg font-semibold text-purple-700 dark:text-white">📚 View your course list</div>
-            <a href="{{ route('courses.detail') }}" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">View</a>
-        </div>
-
-        <!-- Check Grades -->
-        <div class="bg-white dark:bg-purple-800 rounded-lg p-6 shadow-md hover:shadow-xl transition text-center h-40 flex flex-col justify-between">
-            <div class="text-lg font-semibold text-purple-700 dark:text-white">📝 Check your grades</div>
-            <a href="{{ route('courses.detail') }}" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">View</a>
-        </div>
-
-        <!-- View Payments -->
-        <div class="bg-white dark:bg-purple-800 rounded-lg p-6 shadow-md hover:shadow-xl transition text-center h-40 flex flex-col justify-between">
-            <div class="text-lg font-semibold text-purple-700 dark:text-white">💳 View Payments</div>
-            <a href="{{ route('payments.index') }}" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700 transition">View</a>
-        </div>
-    </div>
-</div>
-@endrole
-
-
-                    @role('registrar')
-                    <div class="p-6 bg-yellow-100 dark:bg-yellow-800 rounded-xl shadow hover:shadow-lg transition">
-                        <h2 class="text-xl font-semibold text-yellow-800 dark:text-white mb-2 flex items-center gap-2">
-                            🗂️ Registrar Panel
-                        </h2>
-                        <ul class="list-disc list-inside text-yellow-700 dark:text-yellow-200 space-y-1">
-                            <li>Approve student registrations</li>
-                            <li>Manage academic records</li>
-                        </ul>
-                    </div>
-                    @endrole
-
                 </div>
+            </div>
+
+            <!-- Dashboard Sections -->
+            <div class="row g-4">
+                @role('admin')
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-effect">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-primary bg-opacity-10 p-3 rounded">
+                                    <i class="bi bi-gear fs-3 text-primary"></i>
+                                </div>
+                                <h3 class="mb-0">Admin Panel</h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('admin.users') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-primary me-3"></span>
+                                        <span>Manage Users</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('admin.roles') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-primary me-3"></span>
+                                        <span>Manage Roles</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('admin.permissions') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-primary me-3"></span>
+                                        <span>Manage Permissions</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @endrole
+
+                @role('teacher')
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-effect">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-success bg-opacity-10 p-3 rounded">
+                                    <i class="bi bi-journal-bookmark fs-3 text-success"></i>
+                                </div>
+                                <h3 class="mb-0">Teacher Panel</h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('teacher.courses') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-success me-3"></span>
+                                        <span>My Courses</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('teacher.assignments') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-success me-3"></span>
+                                        <span>Manage Assignments</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('teacher.grades') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-success me-3"></span>
+                                        <span>Submit Grades</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @endrole
+
+                @role('registrar')
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm hover-effect">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-center gap-3 mb-3">
+                                <div class="bg-warning bg-opacity-10 p-3 rounded">
+                                    <i class="bi bi-clipboard-data fs-3 text-warning"></i>
+                                </div>
+                                <h3 class="mb-0">Registrar Panel</h3>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('registrar.students') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-warning me-3"></span>
+                                        <span>Student Records</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('registrar.courses') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-warning me-3"></span>
+                                        <span>Course Management</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                                <li class="list-group-item border-0 px-0">
+                                    <a href="{{ route('registrar.reports') }}" class="text-decoration-none d-flex align-items-center">
+                                        <span class="bullet bg-warning me-3"></span>
+                                        <span>Generate Reports</span>
+                                        <i class="bi bi-chevron-right ms-auto"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @endrole
+
+                @role('student')
+                <div class="col-12">
+                    <div class="card border-0 shadow-sm hover-effect">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-4">
+                                <div class="bg-purple bg-opacity-10 rounded-circle p-3 d-inline-flex mb-3">
+                                    <i class="bi bi-journal-bookmark fs-3 text-purple"></i>
+                                </div>
+                                <h2 class="mb-2">Student Dashboard</h2>
+                                <p class="text-muted">Manage your academic activities</p>
+                            </div>
+                            
+                            <div class="row g-4">
+                                <!-- Course List -->
+                                <div class="col-md-4">
+                                    <div class="card h-100 border-0 shadow-sm h-100">
+                                        <div class="card-body text-center d-flex flex-column">
+                                            <div class="bg-purple bg-opacity-10 rounded-circle p-3 d-inline-flex mx-auto mb-3">
+                                                <i class="bi bi-book fs-3 text-purple"></i>
+                                            </div>
+                                            <h4 class="mb-2">Course List</h4>
+                                            <p class="text-muted mb-3 flex-grow-1">View all your enrolled courses</p>
+                                            <a href="{{ route('payments.detail') }}" class="btn btn-purple w-100">View Courses</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Check Grades -->
+                                <div class="col-md-4">
+                                    <div class="card h-100 border-0 shadow-sm h-100">
+                                        <div class="card-body text-center d-flex flex-column">
+                                            <div class="bg-purple bg-opacity-10 rounded-circle p-3 d-inline-flex mx-auto mb-3">
+                                                <i class="bi bi-award fs-3 text-purple"></i>
+                                            </div>
+                                            <h4 class="mb-2">Grades</h4>
+                                            <p class="text-muted mb-3 flex-grow-1">Check your academic performance</p>
+                                            <a href="{{ route('payments.create') }}" class="btn btn-purple w-100">View Grades</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- View Payments -->
+                                <div class="col-md-4">
+                                    <div class="card h-100 border-0 shadow-sm h-100">
+                                        <div class="card-body text-center d-flex flex-column">
+                                            <div class="bg-purple bg-opacity-10 rounded-circle p-3 d-inline-flex mx-auto mb-3">
+                                                <i class="bi bi-credit-card fs-3 text-purple"></i>
+                                            </div>
+                                            <h4 class="mb-2">Payments</h4>
+                                            <p class="text-muted mb-3 flex-grow-1">View and manage payments</p>
+                                            <a href="{{ route('payments.index') }}" class="btn btn-purple w-100">View Payments</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endrole
             </div>
         </div>
     </div>
+
+    <style>
+        .hover-effect:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        .bg-purple {
+            background-color: #6f42c1;
+        }
+        .text-purple {
+            color: #6f42c1;
+        }
+        .btn-purple {
+            background-color: #6f42c1;
+            color: white;
+        }
+        .btn-purple:hover {
+            background-color: #5e32b0;
+            color: white;
+        }
+        .bullet {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+    </style>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-0">&copy; {{ date('Y') }} SL Academy. All rights reserved.</p>
+            <p class="mb-0">Powered by Laravel</p>
+        </div>
+    </footer>
 </x-app-layout>

@@ -12,7 +12,7 @@
                     <h3 class="text-lg font-medium mb-4">Welcome, {{ auth()->user()->name }}!</h3>
                     <p class="mb-4">You are logged in as a <strong>Student</strong>.</p>
                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        <a href="{{ route('payments.index') }}">View My Payments</a>
+                        <a href="{{ route('payments.detail') }}">View My Payments</a>
                     </button>
                     <button class="bg-green-500 text-white px-4 py-2 rounded hover">
                         <a href="{{ route('courses.index') }}">View My Courses</a>

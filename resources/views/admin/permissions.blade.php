@@ -1,20 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <h2 class="fw-bold text-dark mb-0">
             {{ __('Permission Management') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-medium mb-4">Manage Permissions</h3>
-                    <p class="mb-4">Here you can create, edit, and manage system permissions.</p>
+    <div class="py-4">
+        <div class="container">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">Manage Permissions</h3>
+                    <p class="card-text mb-4">Here you can create, edit, and manage system permissions.</p>
                     
-                    <div class="bg-indigo-50 dark:bg-indigo-900 p-4 rounded-lg">
-                        <h4 class="font-semibold text-indigo-800 dark:text-indigo-200">Permission Management Features</h4>
-                        <ul class="mt-2 list-disc list-inside text-indigo-700 dark:text-indigo-300">
+                    <div class="alert alert-info">
+                        <h4 class="alert-heading">Permission Management Features</h4>
+                        <ul class="mb-0 ps-3">
                             <li>Create new permissions</li>
                             <li>Edit existing permissions</li>
                             <li>Delete unused permissions</li>
@@ -22,33 +22,45 @@
                         </ul>
                     </div>
                     
-                    <div class="mt-6">
-                        <h4 class="font-semibold mb-2">Sample Permissions:</h4>
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                                <span class="font-semibold">manage-users</span>
+                    <div class="mt-4">
+                        <h4 class="fw-bold mb-3">Sample Permissions:</h4>
+                        <div class="row g-3">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 rounded bg-light">
+                                    <span class="fw-bold">manage-users</span>
+                                </div>
                             </div>
-                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                                <span class="font-semibold">manage-roles</span>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 rounded bg-light">
+                                    <span class="fw-bold">manage-roles</span>
+                                </div>
                             </div>
-                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                                <span class="font-semibold">view-reports</span>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 rounded bg-light">
+                                    <span class="fw-bold">view-reports</span>
+                                </div>
                             </div>
-                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                                <span class="font-semibold">edit-content</span>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 rounded bg-light">
+                                    <span class="fw-bold">edit-content</span>
+                                </div>
                             </div>
-                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                                <span class="font-semibold">delete-content</span>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 rounded bg-light">
+                                    <span class="fw-bold">delete-content</span>
+                                </div>
                             </div>
-                            <div class="bg-gray-100 dark:bg-gray-700 p-3 rounded">
-                                <span class="font-semibold">approve-registrations</span>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="p-3 rounded bg-light">
+                                    <span class="fw-bold">approve-registrations</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="mt-6">
-                        <a href="{{ route('dashboard') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-                            Back to Dashboard
+                    <div class="mt-4">
+                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
                         </a>
                     </div>
                 </div>

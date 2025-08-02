@@ -64,9 +64,23 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::post('/payments', [PaymentController::class, 'store'])->name('payments.store');
-    Route::get('/payments/create', [PaymentController::class, 'create'])->name('courses.detail');
+    Route::get('/payments/create', [PaymentController::class, 'create'])->name('payments.create');
+    Route::get('/payments/detail', [PaymentController::class, 'detail'])->name('payments.detail');
 });
 Route::post('/student/payments', [StudentPaymentController::class, 'store'])->name('student.payments.store');
 Route::get('/student/payments', [StudentPaymentController::class, 'index'])->name('student.payments.index');
 
+// Teacher Routes
+Route::prefix('teacher')->middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/courses', function () { return view('teacher.courses'); })->name('teacher.courses');
+    Route::get('/assignments', function () { return view('teacher.assignments'); })->name('teacher.assignments');
+    Route::get('/grades', function () { return view('teacher.grades'); })->name('teacher.grades');
+});
+
+// Registrar Routes
+Route::prefix('registrar')->middleware(['auth', 'role:registrar'])->group(function () {
+    Route::get('/students', function () { return view('registrar.students'); })->name('registrar.students');
+    Route::get('/courses', function () { return view('registrar.courses'); })->name('registrar.courses');
+    Route::get('/reports', function () { return view('registrar.reports'); })->name('registrar.reports');
+});
 
