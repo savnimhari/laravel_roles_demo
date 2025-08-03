@@ -26,38 +26,39 @@ class StripeController extends Controller
     // Process payment
     public function processPayment(Request $request, Payment $payment)
     {
-        // Verify the payment belongs to the current user
-        if ($payment->student_id != Auth::id()) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        // Set Stripe API key
-        Stripe::setApiKey(config('services.stripe.secret'));
-        
         try {
-            // Create PaymentIntent
-            $paymentIntent = PaymentIntent::create([
-                'amount' => $payment->amount * 100, // Convert to cents/paisa
-                'currency' => 'inr',
-                'payment_method_types' => ['card'],
+            $user = $request->user();
+
+            // Create or retrieve Stripe customer
+            $customer = $user->createOrGetStripeCustomer();
+
+        
+        // Charge the payment
+        $user->charge(
+            $payment->amount * 100, // Convert to cents
+            $request->payment_method,
+            [
+                'description' => $payment->payment_type,
+                'receipt_email' => $user->email,
                 'metadata' => [
                     'payment_id' => $payment->id,
                     'student_id' => $payment->student_id
                 ]
-            ]);
-
-            // Return client secret for frontend
-            return response()->json([
-                'clientSecret' => $paymentIntent->client_secret,
-                'payment' => $payment
-            ]);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 500);
-        }
+            ]
+        );
+        
+        // Update payment status
+        $payment->update([
+            'status' => 'paid',
+            'paid_at' => now()
+        ]);
+        
+        return redirect()->route('payments.success')->with('success', 'Payment completed successfully!');
+        
+    } catch (\Exception $e) {
+        return back()->with('error', $e->getMessage());
     }
+}
 
     // Handle successful payment
     public function handleSuccess(Request $request)

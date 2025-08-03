@@ -3,6 +3,7 @@
         <h2 class="text-2xl text-white font-bold mb-4">Complete Payment</h2>
         
         <div class="bg-white p-6 rounded-lg shadow-md">
+            @isset($payment)
             <div class="mb-6">
                 <h3 class="text-lg font-semibold mb-2">Payment Details</h3>
                 <p><span class="font-medium">Type:</span> {{ $payment->payment_type }}</p>
@@ -14,7 +15,7 @@
                 @csrf
                 <div class="mb-4">
                     <label for="cardholder-name" class="block text-gray-700 mb-2">Cardholder Name</label>
-                    <input type="text" id="cardholder-name" class="w-full p-2 border rounded" required>
+                    <input type="text" id="cardholder-name" name="cardholder_name" class="w-full p-2 border rounded" required>
                 </div>
                 
                 <div id="card-element" class="mb-4 p-3 border rounded">
@@ -27,6 +28,9 @@
                     Confirm Payment
                 </button>
             </form>
+            @else
+                <div class="text-red-500">Payment information not found</div>
+            @endisset
         </div>
     </div>
 
@@ -39,42 +43,39 @@
         
         const form = document.getElementById('payment-form');
         const submitButton = document.getElementById('submit-button');
+        const cardErrors = document.getElementById('card-errors');
         
         form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(form);
-    
-    try {
-        const response = await fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json'
-            }
-        });
-        
-        const data = await response.json();
-        
-        if (data.error) {
-            // Handle error
-        } else {
-            // Handle success
-        }
-        
-    } catch (error) {
-        console.error('Error:', error);
-    }
-});
+            e.preventDefault();
+            
+            submitButton.disabled = true;
+            submitButton.textContent = 'Processing...';
+            cardErrors.textContent = '';
+            
+            const {error, paymentMethod} = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+                billing_details: {
+                    name: document.getElementById('cardholder-name').value
+                }
+            });
             
             if (error) {
-                document.getElementById('card-errors').textContent = error.message;
+                cardErrors.textContent = error.message;
                 submitButton.disabled = false;
                 submitButton.textContent = 'Confirm Payment';
-            } else {
-                window.location.href = "{{ route('payments.success') }}";
+                return;
             }
+            
+            // Add payment method ID to form
+            const hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'payment_method');
+            hiddenInput.setAttribute('value', paymentMethod.id);
+            form.appendChild(hiddenInput);
+            
+            // Submit form
+            form.submit();
         });
     </script>
 </x-app-layout>

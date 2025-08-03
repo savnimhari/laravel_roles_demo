@@ -12,7 +12,7 @@ class PaymentController extends Controller
 {
     public function index()
     {
-        $payments = Payment::where('student_id', Auth::id())->get();
+        $payment = Payment::where('student_id', Auth::id())->get();
         return view('payments.index', compact('payment'));
     }
 
