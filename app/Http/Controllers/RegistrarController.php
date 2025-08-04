@@ -6,8 +6,18 @@ use Illuminate\Http\Request;
 
 class RegistrarController extends Controller
 {
-    public function dashboard()
+    public function studentRecords()
     {
-        return view('registrar.dashboard');
+        return view('registrar.students');
+    }
+
+    public function courseManagement()
+    {
+        return view('registrar.courses');
+    }
+
+    public function generateReports()
+    {
+        return view('registrar.reports');
     }
 }

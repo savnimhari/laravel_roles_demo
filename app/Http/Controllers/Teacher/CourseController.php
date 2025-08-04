@@ -38,6 +38,10 @@ class CourseController extends Controller
     {
         //
     }
+     public function list()
+    {
+        return view('student.courses.list');
+    }
 
     /**
      * Show the form for editing the specified resource.

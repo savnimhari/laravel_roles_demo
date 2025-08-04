@@ -6,8 +6,20 @@ use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-    public function dashboard()
+    public function myCourses()
     {
-        return view('teacher.dashboard');
+        // You can pass data to the view if needed
+        return view('teacher.courses');
+    }
+
+    public function manageAssignments()
+    {
+        return view('teacher.assignments');
+    }
+
+    public function submitGrades()
+    {
+        return view('teacher.grades');
     }
 }
+

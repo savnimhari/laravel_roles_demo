@@ -15,6 +15,9 @@
                     <div class="alert alert-success">
                         <h4 class="alert-heading">Role Management Features</h4>
                         <ul class="mb-0 ps-3">
+                            <li>
+                                <a href="{{ route('roles.index') }}">View All Roles</a>
+                            </li>
                             <li>Create new roles</li>
                             <li>Edit existing roles</li>
                             <li>Delete unused roles</li>
@@ -22,7 +25,7 @@
                         </ul>
                     </div>
                     
-                    <div class="mt-4">
+                    {{-- <div class="mt-4">
                         <h4 class="fw-bold mb-3">Current Roles:</h4>
                         <div class="row g-3">
                             <div class="col-md-6 col-lg-3">
@@ -46,7 +49,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     
                     <div class="mt-4">
                         <a href="{{ route('dashboard') }}" class="btn btn-secondary">
