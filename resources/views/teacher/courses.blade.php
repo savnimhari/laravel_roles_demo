@@ -10,10 +10,10 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h3 class="mb-0">Assigned Courses</h3>
-                        <a href="#" class="btn btn-success">
+                        <a href="{{ route('teacher.courses.create') }}" class="btn btn-success">
                             <i class="bi bi-plus-circle me-2"></i>Add Course
                         </a>
+
                     </div>
 
                     <div class="table-responsive">

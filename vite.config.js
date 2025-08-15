@@ -4,7 +4,11 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+                'resources/css/bootstrap.css', // Bootstrap styles
+                'resources/js/bootstrap.js',
+                'resources/css/tailwind.css',  // Tailwind styles
+            ],
             refresh: true,
         }),
     ],

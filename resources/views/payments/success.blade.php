@@ -1,22 +1,26 @@
-<!-- resources/views/payments/success.blade.php -->
 <x-app-layout>
-    <div class="p-6 bg-gray-900 rounded-lg shadow-lg">
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-            <svg class="mx-auto h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-            </svg>
+    <div class="container py-5 d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card shadow-lg p-4 text-center" style="max-width: 500px; border-radius: 15px;">
             
-            <h3 class="mt-2 text-lg font-medium text-gray-900">Payment Successful!</h3>
-            <p class="mt-1 text-sm text-gray-500">
-                Your payment of Rs. {{ number_format($payment->amount, 2) }} for {{ $payment->payment_type }} has been processed.
-            </p>
-            
-            <div class="mt-6">
-                <a href="{{ route('payments.process') }}" 
-                   class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    Back to Payments
+            <!-- Success Icon -->
+            <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success" style="font-size:4rem;"></i>
+            </div>
+
+            <!-- Title -->
+            <h3 class="mb-3 fw-bold">Payment Successful!</h3>
+            <p class="text-muted mb-4">Thank you! Your payment has been processed successfully.</p>
+
+            <!-- Action Buttons -->
+            <div class="d-grid gap-2">
+                <a href="{{ route('payments.index') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-left-circle"></i> Back to My Payments
                 </a>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
 </x-app-layout>
+

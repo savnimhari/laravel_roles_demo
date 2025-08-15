@@ -2,37 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
-    // app/Models/Course.php
-
-
-
     use HasFactory;
 
     protected $fillable = [
-        'code', 'name', 'department', 'credits', 'teacher_id', 'capacity'
+        'course_code',
+        'course_name',
+        'schedule',
+        'students',
+        'teacher_id'
     ];
-
-    public function teacher()
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
-    }
-
-    public function students()
-    {
-        return $this->belongsToMany(User::class, 'enrollments')
-                    ->withPivot('enrollment_date', 'status')
-                    ->withTimestamps();
-    }
-
-    public function assignments()
-    {
-        return $this->hasMany(Assignment::class);
-    }
 }
-

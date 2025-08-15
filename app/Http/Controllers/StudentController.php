@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
  use App\Models\Payment;
 use Illuminate\Http\Request;
-
+//Inheritance (One class derives from another)
 class StudentController extends Controller
 {
     public function dashboard()
@@ -11,7 +11,7 @@ class StudentController extends Controller
         return view('student.dashboard');
     }
    
-
+//encapsulate their own request-handling methods.
 public function storePayment(Request $request)
 {
     $request->validate([

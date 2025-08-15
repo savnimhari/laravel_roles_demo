@@ -5,61 +5,66 @@ namespace App\Http\Controllers\Teacher;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Assignment;
+use App\Models\Course;
+
 class AssignmentController extends Controller
+
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $assignments = Assignment::with('course')->get();
+        $courses = Course::all();
+        return view('teacher.assignments.index', compact('assignments','courses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $courses = Course::all();
+        return view('teacher.assignments.create', compact('courses'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'due_date' => 'required|date',
+            'status' => 'required|in:Pending,Active,Completed',
+        ]);
+
+        Assignment::create($request->all());
+
+        return redirect()->route('teacher.assignments.index')->with('success', 'Assignment created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Assignment $assignment)
     {
-        //
+        $courses = Course::all();
+        return view('teacher.assignments.edit', compact('assignment','courses'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Assignment $assignment)
     {
-        //
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'due_date' => 'required|date',
+            'status' => 'required|in:Pending,Active,Completed',
+        ]);
+
+        $assignment->update($request->all());
+
+        return redirect()->route('teacher.assignments.index')->with('success', 'Assignment updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Assignment $assignment)
     {
-        //
+        $assignment->delete();
+        return redirect()->route('teacher.assignments.index')->with('success', 'Assignment deleted successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
+
 }

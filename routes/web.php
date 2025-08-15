@@ -11,6 +11,7 @@ use App\Http\Controllers\GradeController;
 use App\Http\Controllers\Teacher\CourseController;
 use App\Http\Controllers\Teacher\AssignmentController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\Admin\RoleController;
 
 
 // Public routes
@@ -118,6 +119,14 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
     Route::get('/courses', [TeacherController::class, 'myCourses'])->name('courses');
     Route::get('/assignments', [TeacherController::class, 'manageAssignments'])->name('assignments');
     Route::get('/grades', [TeacherController::class, 'submitGrades'])->name('grades');
+    Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
+    Route::resource('courses', \App\Http\Controllers\Teacher\CourseController::class);
+    Route::prefix('teacher')->name('teacher.')->middleware('auth','role:teacher')->group(function () {
+    Route::resource('assignments', App\Http\Controllers\Teacher\AssignmentController::class);
+});
+
+});
+
 });
 
 /*
@@ -141,22 +150,59 @@ Route::middleware(['auth', 'role:student'])->prefix('payments')->name('payments.
     Route::get('/create', [PaymentController::class, 'create'])->name('create');
     Route::get('/detail', [PaymentController::class, 'detail'])->name('detail');
     Route::get('/edit', [PaymentController::class, 'edit'])->name('edit');
-    Route::post('/process', [PaymentController::class, 'store'])->name('store');
+    Route::post('/process', [PaymentController::class, 'process'])->name('process');
+    Route::get('/gateway', [PaymentController::class, 'gateway'])->name('gateway');
+    Route::get('/success', [PaymentController::class, 'success'])->name('success');
+    Route::post('/create-checkout-session', [PaymentController::class, 'createCheckoutSession']);
+    
 
     // Route::get('/grades', [GradeController::class, 'view'])->name('grades');
-});
-// Add these to your routes/web.php
-
-Route::get('/payments/index', [PaymentController::class, 'showPaymentForm'])
-     ->name('payments.index');
-
-Route::post('/payments/process', [PaymentController::class, 'processPayment'])
-     ->name('payments.process');
-
-
-
+// Payment Gateway Page (new)
+Route::get('/payments/gateway', [PaymentController::class, 'gateway'])->name('payments.gateway');
 // Show payment form
-Route::get('/payments/index', [StripeController::class, 'showPaymentForm'])->name('payments.index');
 
+
+Route::get('/payments/{id}/receipt', [PaymentController::class, 'downloadReceipt'])
+     ->name('payments.receipt');
+
+Route::get('/payments/{id}/success', [PaymentController::class, 'paymentSuccess'])
+    ->name('payments.success');
+
+
+
+
+
+Route::post('/payments/index', [PaymentController::class, 'index'])
+    ->name('payments.index');
 // Process payment (AJAX)
-Route::post('/payments/process', [StripeController::class, 'processPayment'])->name('payments.process');
+Route::post('/payments/process', [PaymentController::class, 'processPayment'])->name('payments.process');
+
+
+});
+
+
+
+Route::prefix('admin')->middleware(['auth', 'verified'])->group(function () {
+    // Admin dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    
+    // User management
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    
+    // Role management
+    Route::get('/roles', [RoleController::class, 'index'])->name('admin.roles.index');
+    Route::get('/roles/create', [RoleController::class, 'create'])->name('admin.roles.create');
+    Route::post('/roles/store', [RoleController::class, 'store'])->name('admin.roles.store');
+    Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('admin.roles.edit');
+    Route::put('/roles/{role}/update', [RoleController::class, 'update'])->name('admin.roles.update');
+    Route::delete('/roles/{role}/destroy', [RoleController::class, 'destroy'])->name('admin.roles.destroy');
+    Route::post('/roles/{role}/permissions', [RoleController::class, 'assignPermissions'])->name('admin.roles.permissions');
+    Route::get('/roles/{role}/permissions', [RoleController::class, 'permissions'])->name('admin.roles.permissions.show');
+    Route::post('/roles/{role}/permissions/store', [RoleController::class, 'storePermissions'])->name('admin.roles.permissions.store');
+    Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'removePermission'])->name('admin.roles.permissions.remove');
+    Route::get('/roles/{role}/assign', [RoleController::class, 'assign'])->name('admin.roles.assign');
+
+    // Permission management
+    Route::get('/permissions', [AdminController::class, 'permissions'])->name('admin.permissions');
+    Route::get('/assign-permissions', [AdminController::class, 'assignPermissions'])->name('admin.permissions.assign');
+});

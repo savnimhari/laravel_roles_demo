@@ -9,7 +9,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-
+//User inherits all methods from Laravel’s built-in authentication model.
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasRoles;

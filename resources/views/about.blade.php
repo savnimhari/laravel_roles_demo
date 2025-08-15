@@ -102,7 +102,8 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card h-100">
-                    <img src="" class="card-img-top rounded-circle mx-auto d-block mt-4" style="width:150px;height:150px;" alt="CEO">
+                    <img src="https://img.freepik.com/premium-vector/businessman-office-round-icon-vector-illustration-cartoon-style_1142-76354.jpg"
+                     class="card-img-top rounded-circle mx-auto d-block mt-4" style="width:150px;height:150px;" alt="CEO">
                     <div class="card-body">
                         <h3 class="card-title">Mewan Jayathilake</h3>
                         <p class="card-text">CEO & Founder</p>
@@ -111,16 +112,18 @@
             </div>
             <div class="col-md-4">
                 <div class="card h-100">
-                    <img src="" class="card-img-top rounded-circle mx-auto d-block mt-4" style="width:150px;height:150px;" alt="Academic Director">
+                    <img src="https://img.freepik.com/premium-photo/adorable-female-manager-character-cute-girl-supervisor-illustration-cartoon-office-manager-young_980716-79699.jpg"
+                     class="card-img-top rounded-circle mx-auto d-block mt-4" style="width:150px;height:150px;" alt="Academic Director">
                     <div class="card-body">
-                        <h3 class="card-title">Maheshika Dayananda</h3>
+                        <h3 class="card-title">Sudeshi Senarathne</h3>
                         <p class="card-text">Head of Education</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card h-100">
-                    <img src="" class="card-img-top rounded-circle mx-auto d-block mt-4" style="width:150px;height:150px;" alt="Tech Lead">
+                    <img src="https://img.freepik.com/premium-vector/teacher-drawing-vector-white-background_889056-69893.jpg"
+                     class="card-img-top rounded-circle mx-auto d-block mt-4" style="width:150px;height:150px;" alt="Tech Lead">
                     <div class="card-body">
                         <h3 class="card-title">Saman Peramuna</h3>
                         <p class="card-text">Technical Director</p>
